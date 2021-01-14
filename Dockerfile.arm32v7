@@ -127,6 +127,11 @@ RUN mkdir -p /usr/local/share/icingaweb2/modules/ \
 
 ADD content/ /
 
+# Add custom plugins
+RUN true \
+    && wget -O /usr/lib/nagios/plugins/check-speedtest https://raw.githubusercontent.com/samjaseu/check-speedtest/master/check-speedtest \
+    && chmod 755 /usr/lib/nagios/plugins/check-speedtest
+
 # Final fixes
 RUN true \
     && sed -i 's/vars\.os.*/vars.os = "Docker"/' /etc/icinga2/conf.d/hosts.conf \
