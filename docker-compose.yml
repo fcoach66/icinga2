@@ -69,3 +69,32 @@ services:
       - ./data/mysql/data:/var/lib/mysql
       # If you have previously used the container's internal DB use:
       #- ./data/icinga/lib/mysql:/var/lib/mysql
+  dashing-icinga2:
+    image: dbodky/dashing-icinga2:3.1.0
+#    build:
+#      context: /opt/git/mocdaniel/dashing-icinga2
+#      dockerfile: /opt/git/mocdaniel/dashing-icinga2/Dockerfile
+    container_name: dashing-icinga2
+    ports:
+#      - "5665:5665"
+      - "8005:8005"
+    env_file:
+      - secrets_dashing-icinga2.env
+    environment:
+      - ICINGA2_API_HOST=icinga2
+      - ICINGA2_API_PORT=5665
+      - ICINGA2_API_USERNAME=root
+      - DASHBOARD_TIMEZONE=CET
+  portainer:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
