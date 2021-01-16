@@ -142,8 +142,6 @@ RUN true \
     /bin/ping6 \
     /usr/lib/nagios/plugins/check_icmp
 
-ADD content/etc/icinga2/conf.d/custom /etc/icinga2/conf.d/custom
-
 EXPOSE 80 443 5665
 
 # Initialize and run Supervisor
